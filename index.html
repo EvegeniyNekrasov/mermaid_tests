@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <meta>
+     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </meta>
+    <style>
+        body {
+            padding: 2rem;
+        }
+    </style>
+    <body>
+        <button 
+            type="button" 
+            id="btn"
+            class="p-2 p-4 bg-blue-600 text-white rounded cursor-pointer"
+        >Show mermaid 2</button>
+
+        <script lang="js" type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+            mermaid.initialize({ startOnLoad: true });
+            
+            const btn = document.querySelector("#btn");
+
+            async function showMermaid(e) {
+                e.preventDefault();
+                const body = document.querySelector("body");
+
+                const pre = document.createElement("pre");
+                pre.classList.add("mermaid");
+                pre.innerHTML = `
+                    ---
+                    layout: dagre
+                    look: classic
+                    theme: default
+                    ---
+                    graph LR;
+                        A[Start] --> B{Choose Path}
+                        B --> |Option 1| C[Path 1] 
+                        B --> |Option 2| D[Path 2] 
+                `;
+
+                document.body.appendChild(pre);
+                await mermaid.run({
+                    nodes: [pre]
+                });
+
+            }
+
+            btn.addEventListener("click", showMermaid);
+        </script>
+    </body>
+</html>
